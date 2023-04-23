@@ -1,0 +1,25 @@
+#
+SELECT radnici.ime, radnici.prezime, sektori.naziv 
+FROM radnici 
+INNER JOIN sektori ON radnici.sektor_id = sektori.sektor_id;
+
+#mora ON ukoliko je naziv primarnog ključa prve tabele različit od naziva stranog ključa druge tabele
+
+SELECT r.ime, r.prezime, s.naziv 
+FROM radnici AS r 
+INNER JOIN sektori AS s ON r.sektor_id = s.sektor_id; 
+
+#ukoliko je naziv ključeva isti može USING:
+
+SELECT r.ime, r.prezime, s.naziv AS Sektor 
+FROM radnici AS r 
+INNER JOIN sektori AS s USING (sektor_id);
+
+# levi spoj:
+SELECT r.*, s.naziv 
+FROM radnici AS r LEFT JOIN sektori AS s 
+USING (sektor_id);
+
+# desni spoj:
+SELECT r . * , s.naziv FROM radnici AS r RIGHT JOIN sektori AS s ON r.sektor_id = s.sektor_id;
+

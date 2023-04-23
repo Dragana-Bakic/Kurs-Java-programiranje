@@ -1,0 +1,6 @@
+INDEX VERSION 1.131+C:\Users\Misa\Documents\MISANU\Predavanja\25. cas Obrada izuzetaka zadaci\.metadata\.plugins\org.eclipse.jdt.core
+1563514106.index
+760979573.index
+3292005696.index
+1865797976.index
+3007264214.index

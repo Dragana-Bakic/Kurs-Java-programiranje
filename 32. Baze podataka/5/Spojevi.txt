@@ -1,0 +1,37 @@
+#Unutrasnji spoj
+SELECT r.radnik_id, r.ime, r.prezime, s.naziv
+FROM radnici AS r INNER JOIN sektori AS s
+ON r.sektor_id = s.sektor_id
+
+SELECT r.radnik_id, r.ime, r.prezime, s.naziv
+FROM radnici AS r
+INNER JOIN sektori AS s 
+USING(sektor_id)
+
+#Izdvojite ime i prezime radnika (u koloni Radnik) i naziv sektora (u koloni Sektor) u kome radnik radi
+
+SELECT concat( r.ime,' ', r.prezime) AS Radnik, s.naziv AS Sektor
+FROM radnici AS r INNER JOIN sektori AS s
+USING(sektor_id)   # On r.sektor_id = s.sektor_id
+
+#Izdvojite imena i datum rodjenja radnika, i naziv sektora, cije ime pocinje na slovo M
+
+SELECT r.ime,r.datumrodj, s.naziv
+FROM radnici AS r INNER JOIN sektori AS s
+ON r.sektor_id = s.sektor_id
+WHERE r.ime LIKE ('M%');
+
+-----------------------------------------------------------------------------------------------------------------------
+#Levi spoj - Za svakog radnika prikazati sektor u kome radi
+SELECT r.*, s.naziv 
+FROM radnici as r 
+LEFT JOIN sektori AS s 
+ON r.sektor_id = s.sektor_id
+
+#Desni spoj - 
+SELECT r.*, s.* 
+FROM radnici as r 
+RIGHT JOIN sektori AS s 
+ON r.sektor_id = s.sektor_id
+
+

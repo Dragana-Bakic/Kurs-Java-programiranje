@@ -1,0 +1,119 @@
+
+CREATE DATABASE zadatak4;
+
+CREATE TABLE studenti(
+    indeks INT PRIMARY KEY,
+    ime VARCHAR(45) NOT NULL,
+    prezime VARCHAR(45) NOT NULL,
+    grad VARCHAR(45) NOT NULL,
+    adresa VARCHAR(45) NOT NULL,
+    broj VARCHAR(45) NOT NULL
+) ENGINE = INNODB
+
+CREATE TABLE predmeti(
+    predmetID INT PRIMARY KEY AUTO_INCREMENT,
+    naziv VARCHAR(45) NOT NULL
+) ENGINE = INNODB
+
+
+CREATE TABLE predavanja(
+    predavanjeID INT PRIMARY KEY AUTO_INCREMENT,
+    datumPredavanja DATE,
+    indeks INT, 
+    predmetID INT,
+    FOREIGN KEY(indeks) REFERENCES studenti(indeks) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(predmetID) REFERENCES predmeti(predmetID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+CREATE TABLE ispiti(
+    ispitID INT PRIMARY KEY AUTO_INCREMENT,
+    datumIspita DATE,
+    ocena INT(2),
+    indeks INT, 
+    predmetID INT,
+    FOREIGN KEY(indeks) REFERENCES studenti(indeks) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(predmetID) REFERENCES predmeti(predmetID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+-------------------------------------------------------------------------------------------------------
+
+INSERT INTO `studenti`(`indeks`, `ime`, `prezime`, `grad`, `adresa`, `broj`) 
+VALUES (111, "Pera", "Peric", "Beograd", "Beogradska", "3"), (222, "Mika", "Mikic", "Nis", "Niska", "9"), (333, "Zika", "Zikic", "Novi Sad", "Novosadska", "13")
+
+INSERT INTO predmeti(naziv) VALUES ("Baze podataka"), ("Programiranje"),("Veb programiranje")
+
+INSERT INTO `predavanja`(`datumPredavanja`, `indeks`, `predmetID`) 
+VALUES ('2022-05-05', 111, 1), ('2022-05-12', 111, 1), ('2022-05-29', 111, 1),
+('2022-05-19', 111, 2),('2022-05-26', 111, 2),('2022-06-01', 111, 2),
+('2022-06-03', 222, 1),
+('2022-04-05', 333, 2), ('2022-04-12', 333, 2), 
+('2022-06-01', 333, 3),('2022-06-02', 333, 3),('2022-06-03', 333, 3)
+
+INSERT INTO `ispiti`(`datumIspita`, `ocena`, `indeks`, `predmetID`) 
+VALUES ('2022-08-01', 6, 111, 1), ('2022-08-05', 9, 111, 2),
+('2022-08-01', 7, 222, 1), ('2022-08-10', 10, 222, 3),
+('2022-08-05', 10, 333, 2),('2022-08-10', 9, 333, 3)
+
+--------------------------------------------------------------------------------------------
+a)
+SELECT AVG(ocena) AS Prosecna_ocena_studenata FROM ispiti
+
+b)
+SELECT (SELECT max(ocena)) AS Najveca_ocena_studenta, (SELECT MIN(ocena)) AS Najmanja_ocena_studenta
+FROM ispiti
+
+ili
+
+SELECT MAX(ocena) AS Najveca_i_najmanja_ocena_studenata
+FROM ispiti
+UNION
+SELECT MIN(ocena)
+FROM ispiti
+
+v)
+INSERT INTO `ispiti`(`datumIspita`, `ocena`, `indeks`, `predmetID`) 
+VALUES ('2022-08-15', 7, 333, 1),
+
+SELECT DISTINCT studenti.* 
+FROM studenti 
+INNER JOIN predavanja USING (indeks)
+INNER JOIN ispiti USING (predmetID)
+WHERE predavanja.indeks NOT IN(SELECT indeks FROM predavanja WHERE predmetID = 1)  
+AND predavanja.indeks IN(SELECT indeks FROM ispiti WHERE predmetID = 1 AND ocena>=6) 
+
+g)
+DELIMITER //
+CREATE PROCEDURE nazivi_predmeta()
+BEGIN
+SELECT naziv AS Nazivi_Predmeta
+FROM predmeti;
+END //
+DELIMITER ;
+
+CALL nazivi_predmeta();
+
+d)
+
+CREATE TABLE datumi_polozenih_ispita(
+    datum_polozenog_ispitaID INT PRIMARY KEY AUTO_INCREMENT,
+    datum DATE,
+    vreme TIME,
+    predmetID INT,
+    FOREIGN KEY(predmetID) REFERENCES predmeti(predmetID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+----------------------
+DELIMITER
+    //
+CREATE TRIGGER datum_polozenih_ispita AFTER INSERT ON
+    ispiti FOR EACH ROW
+BEGIN
+    IF NEW.ocena IN(10,9,8,7,6) THEN
+    INSERT INTO datumi_polozenih_ispita(datum, vreme, predmetID)
+VALUES(new.datumIspita, now(), new.predmetID) ;
+    END IF ;
+END //
+DELIMITER
+    ;
+-----------
+INSERT INTO `ispiti`(`datumIspita`, `ocena`, `indeks`, `predmetID`) 
+VALUES ('2022-08-07', 9, 111, 3)

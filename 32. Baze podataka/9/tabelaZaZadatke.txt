@@ -1,0 +1,63 @@
+#osobe1 tabela Dejana Bajovica
+
+CREATE TABLE IF NOT EXISTS osobe(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(50) NOT NULL,
+    prezime VARCHAR(50) NOT NULL,
+    datum_rodjenja DATE NOT NULL,
+    STATUS VARCHAR
+        (20)
+) ENGINE = InnoDB;
+INSERT INTO osobe(ime, prezime, datum_rodjenja)
+VALUES('Marko', 'Marković', '1990-01-15'),('Ana', 'Anić', '2005-02-10'),('Petar', 'Petrović', '1985-06-23'),('Jelena', 'Janković', '1998-11-07'),('Nikola', 'Nikolić', '1975-04-18');
+
+-------------------------------------------------------------------------
+#TABELA OSOBE profesor
+
+CREATE TABLE osobe( 
+    osobaId int PRIMARY key AUTO_INCREMENT, 
+    ime varchar(45) DEFAULT null, 
+    prezime varchar(45) DEFAULT null, 
+    godine int(3) DEFAULT null, 
+    status varchar(45) DEFAULT null 
+)ENGINE = INNODB
+
+-------------------------------------------------------------------------
+
+#TABELA podaci
+
+CREATE TABLE podaci( 
+    podaciID int PRIMARY KEY AUTO_INCREMENT, 
+    brojMaloletnih int(11) DEFAULT NULL, 
+    brojPunoletnih int(11) DEFAULT Null 
+)ENGINE = INNODB
+
+--------------------------------------------------------------------------
+CREATE TABLE tabeladd( 
+    tabeladdID int PRIMARY KEY AUTO_INCREMENT, 
+    brojizmeđu int(11) DEFAULT NULL, 
+    brojNeparnih int(11) DEFAULT Null 
+)ENGINE = INNODB
+
+--------------------------------------------------------------------------
+
+CREATE TABLE osobe (
+id int PRIMARY KEY AUTO_INCREMENT,
+    ime varchar(45) DEFAULT NULL,
+    prezime varchar(45) DEFAULT NULL,
+    godiste int(4) DEFAULT NULL,
+    status varchar(45) DEFAULT NULL
+)
+ENGINE = INNODB;
+
+CREATE TABLE brojIzmedju (
+	id int PRIMARY KEY AUTO_INCREMENT,
+    brojIzmedju int(11) 
+)
+ENGINE = INNODB;
+
+CREATE TABLE brojNeparnih(
+	id int PRIMARY KEY AUTO_INCREMENT,
+    brojNeparnih int(11) 
+)
+ENGINE = INNODB;

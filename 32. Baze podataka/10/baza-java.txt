@@ -1,0 +1,15 @@
+
+- Kreiranje tabele u bazi (baza42_cas) na serveru - phpMyAdmin
+
+CREATE TABLE korisnici(
+    korisnikID INT PRIMARY KEY AUTO_INCREMENT,
+    korisnickoIme VARCHAR(45) NOT NULL,
+    lozinka VARCHAR(45) NOT NULL,
+    ime VARCHAR(45) NOT NULL,
+    email VARCHAR(45) NOT NULL
+    )
+
+INSERT INTO `korisnici`(`korisnickoIme`, `lozinka`, `ime`, `email`) 
+VALUES ("korisnik1", "korisnik123", "Korisnik", "korisnik@gmail.com")
+
+---------------------------------------------------------------------------------------------------

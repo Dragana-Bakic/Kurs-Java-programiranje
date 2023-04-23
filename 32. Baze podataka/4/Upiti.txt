@@ -1,0 +1,168 @@
+CREATE TABLE sektori(
+    sektor_ID INT(10) PRIMARY KEY,
+    naziv VARCHAR(55)
+) ENGINE = INNODB
+
+CREATE TABLE radnici(
+    radnik_ID INT(10) PRIMARY KEY,
+    ime VARCHAR(55) NOT NULL,
+    prezime VARCHAR(55) NOT NULL,
+    datumrodj DATE NOT NULL,
+    pol CHAR(1) NOT NULL,
+    plata INT(10),
+    brsek INT(10),
+    FOREIGN KEY(brsek) REFERENCES sektori(sektor_ID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+
+INSERT INTO `sektori`(`sektor_ID`, `naziv`) 
+VALUES (1,"Uprava"),(2,"Administracija"),(3,"Marketing"), (4,"Razvoj softvera"),(5,"Testiranje");
+
+INSERT INTO `radnici`(`radnik_ID`, `ime`, `prezime`, `datumrodj`, `pol`, `plata`, `brsek`) 
+VALUES (1, "Pera", "Peric", '2000-01-01', 'M', 45000, 1),
+(2, "Zika", "Zikic", '2001-01-01', 'M', 55000, 2),
+(3, "Laza", "Lazic", '2002-01-01', 'M', 65000, 3),
+(4, "Mika", "Mikic", '1990-01-01', 'M', 75000, 4),
+(5, "Milan", "Milanovic", '1985-01-01', 'M', 85000, 5),
+(6, "Ana", "Anic", '1986-02-02', 'Z', 46000, 1),
+(7, "Ivana", "Ivanovic", '1987-03-03', 'Z', 56000, 2),
+(8, "Nina", "Ninic", '1988-04-04', 'Z', 66000, 3),
+(9, "Mina", "Minic", '1989-05-05', 'Z', 76000, 4),
+(10, "Masa", "Masic", '1989-06-06', 'Z', 86000, 5)
+
+--------------------------- U P I T I -----------------------------------------------------------------
+# prikazati imena svih radnika
+SELECT ime FROM radnik
+
+# prikazati imena, prezimena i datum rodjenja svih radnika 
+SELECT ime, prezime, datumRodjenja 
+FROM radnik;
+
+#prikazati sve podatke o radnicima
+
+#I nacin: navodjenjem imena svih kolona u select klauzuli, dovojenih znakom zapeta
+#II nacin: koriscenjem operatora zvezdice koja menja sve kolone unutar nase tabele:
+SELECT *
+FROM radnik
+
+# Prikazati nazive svih sektora
+SELECT naziv
+FROM sektori
+
+#Prikazati ime, prezime i platu svih radnika sortiranih po iznosu plate u rastucem poretku
+SELECT ime,prezime, plata
+FROM radnik
+ORDER BY plata
+
+#asc - rastuce (podrazumevano)
+# desc - opadajuce
+
+#Prikazati ime, prezime i platu svih radnika sortiranih po iznosu plate u opadajucem poretku
+
+SELECT ime,prezime, plata
+FROM radnik
+ORDER BY plata DESC
+
+#izracunati prosecnu platu svih radnika
+#AVG(kolona)
+#Alijas AS 
+SELECT AVG(plata)
+AS ProsekPlata   // nazivanje 
+FROM radnik
+
+# Ispisati ukupan broj svih radnika 
+SELECT COUNT(radnik_id) 
+AS UkupanBrojRadnika 
+FROM radnik
+
+# Prikazati najvecu platu 
+SELECT MAX(plata) 
+AS NajvecaPlata 
+FROM radnik
+
+
+# Prikazati najmanju platu radnika 
+SELECT MIN(plata) 
+AS NajmanjaPlata 
+FROM radnik
+
+# Prikazati zbir svih plata radnika 
+SELECT SUM(plata) 
+AS ZbirPlata 
+FROM radnik
+
+#Prikazivanje sa uslovom
+SELECT *
+FROM radnik
+WHERE prezime = "Peric" // moze upotreba i malih i velikih slova
+
+# Prikazati imena i prezimena svih radnika cija je plata veca od # 60000.
+SELECT ime, prezime FROM radnik WHERE plata > 60000
+
+# Prikazati sve podatke o svim radnicima koji se prezivaju Lazic i kojima je plata manja od 60000
+SELECT *
+FROM radnik
+WHERE prezime = "Lazic" AND plata < 60000  // dva uslova, uslovi se spajaju sa and ili or
+SELECT *
+FROM radnik
+WHERE prezime = "Lazic" AND NOT plata > 66000
+
+# Prikazati sve podatke o svim radnicima koji se prezivaju Zikic ili Anic. Dva nacina:
+SELECT *
+FROM radnik
+WHERE prezime = "Zikic" OR prezime = "Anic"
+
+ili 
+
+SELECT * 
+FROM radnik 
+WHERE prezime IN("Anic", "Lazic")
+
+# Prikazati sve podatke o svim radnicima koji se ne prezivaju Peric i Ninic 
+# koristiti IN klauzulu 
+SELECT * 
+from radnik 
+WHERE prezime NOT IN("Peric", "Ninic")
+
+ili
+SELECT * 
+FROM radnik 
+WHERE prezime <>"Peric" AND prezime <>"Ninic"
+
+
+#AND zahteva da se ispune oba uslova
+
+# Prikazati sve podatke o svim radnicima cija se plata krece izmedju 60000 i 80000.
+SELECT *
+FROM radnik
+WHERE plata BETWEEN 60000 AND 80000 // klauzula BETWEEN uporedjuje sve vrednosti izmedju zadatih intervala
+
+# Prikazati sve podatke o svim radnicima cije prezime pocinje slovom M
+SELECT *
+FROM radnik
+WHERE prezime LIKE "M%"
+
+# Prikazati sve podatke o svim radnicima cije prezime sadrzi slovo n unutar
+SELECT *
+FROM radnik
+WHERE prezime LIKE "%n%"
+
+# Prikazati sve podatke o svim radnicima cije prezime ne sadrzi slovo n 
+SELECT *
+FROM radnik
+WHERE prezime NOT LIKE "%n%"
+
+
+# Prikazati sve podatke o svim radnicima ciji datum rodjenja nije upisan
+SELECT * 
+FROM radnik 
+WHERE datumrodjenja IS null
+
+# Prikazati sve podatke o svim radnicima sortirane opadajuce po broju sektora a rastuce po prezimenu
+SELECT * 
+FROM radnik 
+ORDER BY brsek DESC, prezime ASC
+-----------------------------------------------------------------------------------------------------------------------------
+
+SELECT now() // prikaze stvarno trenutni datum i vreme
+----------------------------------------------------------------------------------------------------------------------

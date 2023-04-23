@@ -1,0 +1,78 @@
+CREATE DATABASE imeBaze;
+
+USE imeBaze; #nekad ne radi, tj.prijavljuje gresku
+
+#importovanje defbaze
+--------------------------------------------------------------------------------------------------------
+# Klauzula DISTINCT
+
+SELECT sektor_id 
+FROM radnici
+
+SELECT DISTINCT sektor_id 
+FROM radnici
+--------------------------------------------------------------------------
+#Klauzula LIMIT
+
+I format:
+#Prikazati prvih 5 radnika (imena i prezimena), sortiranih prema datumu.
+SELECT ime, prezime 
+FROM radnici 
+ORDER BY datumrodj LIMIT 5;
+#Prikazati prvih 5 radnika (imena i prezimena), sortiranih prema datumu opadajuce.
+SELECT ime, prezime 
+FROM radnici 
+ORDER BY datumrodj DESC LIMIT 5;
+
+II format:
+#Prikazati drugog zaposljenog radnika (ime i prezime).
+SELECT ime, prezime 
+FROM radnici LIMIT 1, 1 
+
+# prvi radnik ima indeks 0 
+# drugi radnik ima indeks 1 
+# a nama je potreban drugi radnik
+
+#Prikazati prvog zaposljenog radnika (ime i prezime).
+SELECT ime, prezime 
+FROM radnici LIMIT 0,1
+
+---------------------------------------------------------------------------
+#Klauzula WHERE
+SELECT * 
+FROM radnici
+WHERE pol = 'Z'
+-----------------------------------------------------------------------------
+#Klauzula GROUP BY
+#Prikazati za svaki sektor broj radnika koji radi u njemu
+
+SELECT sektor_id AS Sektor,
+COUNT(*) AS BrojRadnika
+FROM radnici 
+GROUP BY sektor_id;
+
+------------------------------------------------------------------------------------
+#Klauzula HAVING
+#Prikazati za svaki sektor broj radnika koji radi u njemu, tako da su prikazani samo sektori koji imaju vise od jednog radnika
+
+SELECT sektor_id AS Sektor,
+COUNT(*) AS BrojRadnika
+FROM radnici 
+GROUP BY sektor_id 
+HAVING BrojRadnika > 1;
+----------------------------------------------------------------------------------
+
+#Prikazati podatke samo o sektorima koji imaju više od jednog ženskog radnika
+
+SELECT sektor_id AS Sektor, COUNT(*) AS BrojRadnika
+FROM radnici 
+WHERE pol = 'Z'
+GROUP BY sektor_id 
+HAVING BrojRadnika > 1;
+
+#Prikazati podatke o prosecnim platama po sektorima po polovima radnika, sortirane po avg plati rastuce
+
+SELECT sektor_id AS Sektor, pol, AVG(plata) AS ProsecnaPlata
+FROM radnici 
+GROUP BY sektor_id, pol
+ORDER BY ProsecnaPlata

@@ -1,0 +1,13 @@
+CREATE table t (s1 int);
+insert into t values (5);
+
+CREATE table test2(
+    idtest2 int not null AUTO_INCREMENT,
+    ime varchar(20),
+    god year null,
+    PRIMARY KEY(idtest2));
+	
+insert into test2(ime, god) VALUES('pera',2000);
+insert into test2(ime, god) VALUES('mika',1999);
+insert into test2(ime, god) VALUES('laza',2001);
+insert into test2(ime, god) VALUES('zika',2000);

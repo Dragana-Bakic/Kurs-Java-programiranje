@@ -1,0 +1,115 @@
+# Naredba za kreiranje baze podataka
+ 
+CREATE DATABASE itp 
+
+# Naredba za brisanje baze podataka 
+
+DROP DATABASE itp; 
+
+# Naredba za kreiranje tabele i tipovi podataka 
+ 
+CREATE TABLE osobe( 
+broj INT(5), 
+nekoIme Varchar(25), 
+datum Date,   # YYYY-MM-DD 
+cena decimal(3,2),   # za valute 123.45din  
+vrednost double,   # kada je potrebno vise od 7 cifara preciznosti 
+f float,   # u ostalim slucajevima 
+pol ENUM('M','Z') ) 
+
+# Pravljenje konkretne tabele
+
+CREATE TABLE polaznici( 
+ImePolaznika Varchar(15), 
+PrezimePolaznika VARCHAR(20), 
+datumRodjenja Date, 
+godineStaza Int(2) 
+) 
+
+# Unosenje podataka u tabelu polaznici - Insertovanje podataka
+
+INSERT INTO polaznici(ImePolaznika, PrezimePolaznika, datumRodjenja, godineStaza)
+VALUES("Dragana", "Bakic", '1988-02-14',99)
+INSERT INTO polaznici(ImePolaznika, PrezimePolaznika, datumRodjenja, godineStaza)
+VALUES("Petar", "Vranic", '1982-05-05',100)
+INSERT INTO polaznici(ImePolaznika, PrezimePolaznika, datumRodjenja, godineStaza)
+VALUES("abc", "def", '9876-10-10',5874), ("Aleksandar", "Cosic", '2021-12-09',5)
+
+# Kreiranje tabele KNJIGE sa primarnim kljucem
+# 1. nacin
+
+CREATE TABLE knjige( 
+knjigaID int PRIMARY KEY, 
+nazivKnjige varchar(55) 
+) 
+
+# 2.nacin
+
+CREATE TABLE knjige( 
+knjigaID int, 
+nazivKnjige varchar(55),
+PRIMARY KEY(knjigaID) 
+) 
+
+INSERT INTO knjige(knjigaID, nazivKnjige)
+VALUES(1, "Prokleta Avlija"), (2, "Starac i more")
+
+
+# Dodavanje svojstva auto-increment primarnom kljucu
+
+CREATE TABLE knjige1( 
+knjigaID int PRIMARY KEY AUTO_INCREMENT, 
+nazivKnjige Varchar(100) 
+) 
+
+INSERT INTO knjige(nazivKnjige)
+VALUES("Prokleta Avlija"), ("Starac i more"), ("Koreni")
+
+
+# Izmena tabele
+
+ALTER TABLE knjige 
+ADD godinaIzdavanja INT 
+
+ALTER TABLE knjige 
+DROP COLUMN godinaIzdavanja 
+------------------------------------------------------------------------------------------------------
+# objekat iz spoljnog sveta = tabela = relacijom = entitet 
+# kolona = atribut  - imePolaznika = atribut(kolona) 
+# Tip podataka kolone = Domena atributa 
+# Vrsta = podatak   - Andrija = Vrsta(podatak) 
+
+Redosled navođenja atributa:
+# primarni kljuc 
+# kolona1 
+# kolona2 
+# straniKljucevi 
+-------------------------------------------------------------------------------------------------------
+ZADATAK: Vozilo relacija # primarniKljuc # Marka (opel, bmw, peugeot, mazda):
+
+CREATE TABLE vozila( 
+voziloID int PRIMARY KEY AUTO_INCREMENT, 
+Marka Varchar(15) 
+)
+
+INSERT INTO vozila(marka)
+VALUES("opel"), ("bmw"), ("peugeot"),("mazda")
+
+----------------------------------------------------------------------------------
+# Naredba za striktno unosenje vrednosti u kolone
+CREATE table kontakti( 
+kontaktID INT PRIMARY KEY NOT NULL, 
+email varchar(50) NOT Null, 
+telefon varchar(15) not null 
+)
+
+----------------------------------------------------------------------------------------
+CREATE TABLE vozila1( 
+BrojSasije INT PRIMARY KEY NOT NULL, 
+TipVozila varchar(15),
+BrojMotora INT,
+RegistarskiBroj varchar(10)
+)
+
+
+

@@ -1,0 +1,19 @@
+Zadatak 1. Izdvojiti identifikatore predmeta koji imaju više od 5 bodova 
+ili ih je položio neki student 20.01.2015.
+
+
+SELECT DISTINCT id_predmeta FROM predmet 
+WHERE bodovi>5
+UNION SELECT DISTINCT id_predmeta FROM ispit 
+WHERE datum_ispita = 2015-01-20 AND ocena>5
+
+Zadatak 2: Izdvojiti indekse studenata koji su rodeni u Beogradu ili imaju ocenu 10. Rezultat urediti u opadajućem poretku.
+
+SELECT indeks 
+FROM dosije 
+WHERE mesto_rodjenja = "Beograd" 
+UNION 
+SELECT indeks 
+FROM ispit 
+WHERE ocena = 10 
+ORDER BY indeks DESC

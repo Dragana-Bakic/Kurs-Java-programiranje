@@ -1,0 +1,78 @@
+
+----------------------------------------------------------------------------------------------------------------------
+FUNKCIJE:
+
+# IZMENA podataka kroz program:
+
+SELECT radnikid 
+FROM radnici 
+WHERE ime = "Proba" AND prezime = "Proba"
+
+UPDATE radnici set ime = "Nikola" WHERE radnik_ID = 11;
+
+UPDATE radnici set prezime = "Nikolic" WHERE radnik_ID = 11
+
+SELECT *
+FROM radnici
+WHERE radnik_ID = 11;
+
+
+# BRISANJE podataka
+
+SELECT radnik_ID
+FROM radnici 
+WHERE ime = "Nikola" AND prezime = "Nikolic"
+
+SELECT *
+FROM radnici 
+WHERE radnik_ID = 11
+
+DELETE FROM radnik
+WHERE radnik_ID = 11
+
+SELECT *
+FROM radnici
+WHERE radnik_ID = 11;
+----------------------------------------------------------------------
+# SPAJANJE Imena i Prezimena
+
+SELECT concat(ime, ' ' , prezime) 
+AS ImePrezime 
+From radnici
+
+#Spojiti imena i prezimena radnika i sortirati ih po duzini opadajuće i prikazati duzinu
+
+SELECT concat(ime, ' ' , prezime) 
+AS ImePrezime, length(concat(ime, prezime)) 
+as duzina 
+From radnici 
+order by length(ImePrezime) DESC;
+
+----------------------------------------------------------------------------------------------------------
+SELECT LEFT( 'nekitekst ', 3) 
+SELECT RIGHT( 'nekitekst ', 4) 
+SELECT TRIM('    nekitekst   ') 
+
+#ispisivanje velikim slovima
+SELECT UPPER(ime)
+from radnik
+
+SELECT REPLACE('nekitekst ', 'neki ', 'dobar ') AS NoviTekst 
+SELECT SUBSTRING('nekitekst ', 5, 5)
+
+-------------------------------------------------------------------------------
+SELECT DATE('2017-11-25 18:52:17') 
+SELECT HOUR('2017-11-25 18:52:17') 
+
+-----------------------------------------------------------------------------------
+Pogledi:
+
+CREATE VIEW radniciView AS 
+SELECT ime,prezime
+FROM radnici
+
+#pretrazivanje pogleda
+SELECT *
+FROM radniciView
+
+

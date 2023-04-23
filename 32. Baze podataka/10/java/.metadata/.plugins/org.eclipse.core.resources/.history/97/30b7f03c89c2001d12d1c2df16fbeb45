@@ -1,0 +1,19 @@
+package dragana.bakic;
+import java.util.Scanner;
+import java.util.Random;
+
+public class Igrica {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int broj;
+		Random r = new Random();
+		
+		System.out.print(r);
+
+sc.close();
+	}
+
+}

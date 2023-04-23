@@ -1,0 +1,309 @@
+ZADATAK 1: Написати процедуру која испитује да ли је број паран
+
+DELIMITER // 
+CREATE PROCEDURE paran(IN parametar1 INT) 
+BEGIN  
+DECLARE v INT;  
+SET v = parametar1; 
+CASE v 
+WHEN MOD(v,2) = 0 THEN SELECT CONCAT("Broj je paran"); 
+ELSE SELECT CONCAT("Broj je neparan"); 
+END CASE; 
+END // DELIMITER ; 
+
+CALL paran(5);
+-------------------------------------------------------------
+DELIMITER // 
+CREATE PROCEDURE proveri_broj(IN broj INT) 
+BEGIN 
+IF broj % 2 = 0 
+THEN SELECT 'Paran' AS rezultat; 
+ELSE SELECT 'Neparan' AS rezultat; 
+END IF; 
+END // DELIMITER ;
+-------------------------------------------------------------
+CREATE PROCEDURE check_paran(IN broj INT) 
+BEGIN 
+SELECT IF(MOD(broj, 2) = 0, 'broj pan', 'broj neparan'); 
+END
+-------------------------------------------------------------
+DELIMITER // 
+CREATE PROCEDURE paran(IN broj int) 
+BEGIN 
+IF MOD(broj,2)!=0 THEN SELECT 'Broj je neparan' AS Rezultat; 
+ELSE SELECT 'Broj je paran' as Rezultat; 
+END if; 
+END // DELIMITER ; 
+
+call paran(10)
+-------------------------------------------------------------
+
+DELIMITER // 
+CREATE PROCEDURE zadatak1(IN broj int, OUT rezultat varchar(10)) 
+BEGIN 
+IF(broj MOD 2 = 0) THEN SET rezultat = "paran"; 
+ELSE SET rezultat = "neparan"; 
+END IF; 
+END // DELIMITER ;
+
+CALL zadatak1(2, @rezultat); SELECT @rezultat
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 2: Написати процедуру која испитује да ли је бој паран и дељив бројем 3.
+
+DELIMITER // 
+CREATE PROCEDURE ispit_broja(IN broj INT, OUT rezultat VARCHAR(10)) 
+BEGIN 
+IF (broj MOD 2 = 0 AND broj % 3 = 0)
+THEN SET rezultat = 'Broj je paran i deljiv sa 3';  
+ELSE SET rezultat = 'Broj nije paran ili nije deljiv sa 3'; 
+END IF; 
+END // DELIMITER ;
+
+CALL ispit_broja(2, @rezultat); SELECT @rezultat
+-------------------------------------------------------------
+
+DELIMITER // 
+CREATE PROCEDURE parantri(IN broj int) 
+BEGIN 
+IF MOD(broj,2)=0 AND MOD(broj,3)=0 
+THEN SELECT 'Broj je paran i deljiv sa 3.' AS Rezultat; 
+ELSE SELECT 'Broj je neparan ili nije deljiv sa 3.' as Rezultat; 
+END IF; 
+END // DELIMITER ; 
+
+CALL parantri(12)
+-------------------------------------------------------------
+
+CREATE PROCEDURE check_deljiv2i3(IN broj INT) 
+BEGIN 
+SELECT IF(MOD(broj, 2*3) = 0, 'broj deljiv sa 2and3', 'broj neispravan'); 
+END
+-------------------------------------------------------------
+DELIMITER // 
+CREATE PROCEDURE zadatak2(IN bro INT, OUT rezultat varchar(30)) 
+BEGIN 
+IF(broj MOD 6 = 0) 
+THEN SET rezultat = "paran i deljiv sa tri"; 
+ELSE SET rezultat = "neparan i nedeljiv sa tri"; 
+END IF; 
+END // 
+DELIMITER ;
+
+CALL zadatak2(18, @rezultat); SELECT @rezultat
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 3: Написати процедуру која исписује све колоне са задатим именом за претрагу. Нпр. све особе са именом Никола.
+
+DELIMITER //
+CREATE PROCEDURE Nikole(IN name VARCHAR(30));
+BEGIN 
+SELECT * FROM neka_tabela WHERE name = 'Nikola';
+END // DELIMITER ;
+-------------------------------------------------------------
+DELIMITER // 
+CREATE PROCEDURE find_name(IN ime VARCHAR(30)) 
+BEGIN 
+SELECT * FROM test2 WHERE test2.ime = ime; 
+END // DELIMITER ; 
+
+CALL find_name("Mika");
+-------------------------------------------------------------
+
+ZADATAK 4: Написати функцију која израчунава површину квадра.
+
+DELIMITER // 
+CREATE FUNCTION zadatak4(a double, b double, c double) 
+RETURNS double 
+DETERMINISTIC 
+BEGIN 
+DECLARE povrsina double; 
+SET povrsina = 2*(a*b + a*c + b*c); 
+RETURN povrsina; 
+END // DELIMITER ; 
+
+SELECT zadatak4(2,2,2)
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+Zadatak5: Написати функцију која враћа просечан број година особа из табеле Osobe.
+
+DELIMITER // 
+CREATE FUNCTION prosecne_godine() RETURNS DECIMAL(10,2) 
+BEGIN 
+DECLARE avg_godine DECIMAL(10,2); 
+SELECT AVG(YEAR(CURDATE()) - YEAR(datum_rodjenja)) INTO avg_godine FROM osobe1; 
+RETURN avg_godine; 
+END // DELIMITER ;
+
+SELECT prosecne_godine() AS prosecna_starost;
+-------------------------------------------------------------
+DELIMITER // 
+CREATE FUNCTION prosekGodina(godine1 INT,godine2 INT , godine3 INT) 
+RETURNS INT 
+DETERMINISTIC 
+BEGIN 
+DECLARE prosekGOD INT; 
+SET prosekGOD = (godine1+godine2+godine3) DIV 3; 
+RETURN prosekGOD; 
+END // DELIMITER ; 
+
+SELECT prosekGodina(10,20,30);
+-------------------------------------------------------------
+CREATE FUNCTION GODINE() RETURNS INT 
+BEGIN 
+RETURN (SELECT AVG(TIMESTAMPDIFF(YEAR, datum_rodjenja, now())) AS godine FROM osobe); 
+END // DELIMITER ;
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 6: Написати тригер који у односу на број година особе исписује статус ("Пунолетан", "Малолетан"), 
+
+DELIMITER // 
+CREATE TRIGGER status_osobe BEFORE INSERT ON osobe FOR EACH ROW 
+BEGIN 
+IF NEW.godine >= 18 THEN SET NEW.status = 'Punoletan'; 
+ELSE SET NEW.status = 'Maloletan'; 
+END IF; 
+END // DELIMITER ;
+
+INSERT INTO osobe (ime, prezime, godine) VALUES ('Ana', 'Anic', 25); 
+INSERT INTO osobe (ime, prezime, godine) VALUES ('Bojan', 'Bojanic', 17); 
+INSERT INTO osobe (ime, prezime, godine) VALUES ('Ceca', 'Raznatatovic', 33);
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 7: Након уноса податка у табели Osobe(osobaID, ime, prezime, godine, status) исписати вредности у колонама brojPunoletnih и brojMaloletnih у табели Podaci. 
+
+DELIMITER // 
+CREATE TRIGGER zadatak7 AFTER INSERT ON osobe FOR EACH ROW 
+BEGIN 
+DECLARE starost INT; 
+SET starost = YEAR(NOW()) - YEAR(NEW.godine); 
+IF starost >= 18 THEN UPDATE podaci SET brojPunoletnih = brojPunoletnih + 1; 
+ELSE UPDATE podaci SET brojMaloletnih = brojMaloletnih + 1; 
+END IF; 
+END// DELIMITER ;
+-------------------------------------------------------------
+DELIMITER // 
+CREATE TRIGGER update_podaci AFTER INSERT ON osobe FOR EACH ROW 
+BEGIN 
+INSERT INTO podaci (brojMaloletnih, brojPunoletnih) 
+SELECT 
+(SELECT count(*) FROM osobe WHERE status = 'PUNOLETAN') AS broj_punoletnih, 
+(SELECT count(*) FROM osobe WHERE status = 'MALOLETAN') AS broj_maloletnih 
+FROM osobe LIMIT 1; 
+END // DELIMITER ;
+-------------------------------------------------------------
+DELIMITER //
+CREATE TRIGGER brojPoStatusu AFTER INSERT ON osobe FOR EACH ROW
+BEGIN
+    INSERT INTO podaci(brojMaloletnih, brojPunoletnih)
+VALUES(
+    (SELECT
+        COUNT(osobe.osobaId)
+    FROM
+        osobe
+    WHERE
+        osobe.godine < 18),
+    (SELECT
+        COUNT(osobe.osobaId)
+    FROM
+        osobe
+    WHERE
+        osobe.godine >= 18)
+) ;
+END //
+DELIMITER ;
+
+INSERT INTO osobe (ime, prezime, godine) VALUES ('Milica', 'Jaric', 15); 
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 8. Након  aжурирања  податка  у  табели  Osobe (osobaID,  ime,  prezime,  godine,  status)  исписати вредности у колонама brojPunoletnih и brojMaloletnih у табели Podaci. 
+
+DELIMITER //
+CREATE TRIGGER azur AFTER UPDATE ON osobe FOR EACH ROW
+BEGIN
+    INSERT INTO podaci(brojMaloletnih, brojPunoletnih)
+VALUES(
+    (SELECT
+        COUNT(osobe.osobaId)
+    FROM
+        osobe
+    WHERE
+        osobe.godine < 18),
+    (SELECT
+        COUNT(osobe.osobaId)
+    FROM
+        osobe
+    WHERE
+        osobe.godine >= 18)
+) ;
+END//
+DELIMITER ;
+
+UPDATE osobe
+SET godine = 7
+WHERE osobaID = 3
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 9: Написати тригер који исписује укупан број особа са годином рођења између 1985 -1995. 
+
+DELIMITER // 
+CREATE TRIGGER zadatak9 AFTER UPDATE ON osobe FOR EACH ROW 
+BEGIN 
+INSERT INTO tabeladd(brojizmeđu) 
+SELECT COUNT(osobe.osobaid) FROM osobe WHERE osobe.datumrodj BETWEEN 1985 AND 1995; 
+END // DELIMITER ;
+
+UPDATE osobe
+SET godine = 33, status = "Punoletan", datumrodj = 1990
+WHERE osobaID = 3
+-------------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER brojNeparnih_TRIGGER AFTER INSERT ON osobe FOR EACH ROW
+BEGIN
+	INSERT INTO `brojneparnih`(`brojNeparnih`)  (SELECT COUNT(`osobe`.`id`) FROM 
+`osobe` WHERE `osobe`.`godiste` MOD 2 = 1);
+END ; $$
+
+INSERT INTO osobe (ime, prezime, godiste) VALUES
+("Pera", "Peric", 1990),
+("Zika", "Zikic", 2000),
+("Mika", "Mikic", 1987),
+("Nikola", "Nikolic", 2004)
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+ZADATAK 10: Написати тригер који исписује  број особа које имају непаран број година.
+
+DELIMITER //
+CREATE TRIGGER Zadatak10 AFTER INSERT ON osobe FOR EACH ROW
+BEGIN
+	INSERT INTO tabeladd(brojNeparnih)  (SELECT COUNT(`osobe`.`osobaid`) FROM 
+`osobe` WHERE `osobe`.`godine` MOD 2 != 0);
+END //
+DELIMITER ;
+
+-------------------------------------------------------------
+DELIMITER $$
+CREATE TRIGGER brojNeparnih_TRIGGER AFTER INSERT ON osobe FOR EACH ROW
+BEGIN
+	INSERT INTO `brojneparnih`(`brojNeparnih`)  (SELECT COUNT(`osobe`.`id`) FROM 
+`osobe` WHERE `osobe`.`godiste` MOD 2 = 1);
+END ; $$
+
+
+INSERT INTO osobe (ime, prezime, godiste) VALUES
+("Pera", "Peric", 1990),
+("Zika", "Zikic", 2000),
+("Mika", "Mikic", 1987),
+("Nikola", "Nikolic", 2004)
+
+
+
+

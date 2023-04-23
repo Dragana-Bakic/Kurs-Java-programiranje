@@ -1,0 +1,49 @@
+
+DROP TABLE IF EXISTS `radnici`;
+CREATE TABLE IF NOT EXISTS `radnici` (
+  `radnik_id` int(10) NOT NULL AUTO_INCREMENT,
+  `ime` varchar(55) NOT NULL,
+  `prezime` varchar(55) NOT NULL,
+  `datumrodj` date DEFAULT NULL,
+  `pol` varchar(1) DEFAULT NULL,
+  `plata` int(10) DEFAULT NULL,
+  `sektor_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`radnik_id`),
+  KEY `sektor_id` (`sektor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `radnici` (`radnik_id`, `ime`, `prezime`, `datumrodj`, `pol`, `plata`, `sektor_id`) VALUES
+(1, 'Pera', 'Peric', '2000-01-01', 'M', 45000, 1),
+(2, 'Zika', 'Zikic', '2001-01-01', 'M', 55000, 2),
+(4, 'Mika', 'Mikic', '1990-01-01', 'M', 75000, 4),
+(5, 'Milan', 'Petrovic', '1985-01-01', 'M', 85000, 5),
+(6, 'Ivana', 'Ivanovic', '1986-02-02', 'Z', 46000, 1),
+(7, 'Ana', 'Anic', '1987-06-06', 'Z', 56000, 2),
+(8, 'Nina', 'Ninic', '1987-07-07', 'Z', 66000, 3),
+(9, 'Mina', 'Minic', '1988-08-08', 'Z', 77000, 4),
+(10, 'Masa', 'Masic', '1989-09-09', 'Z', 88000, 5),
+(11, 'Jana', 'Janic', '2000-05-05', 'Z', 100000, 5),
+(12, 'Iva', 'Ivic', '2002-05-05', 'Z', 105000, NULL);
+
+
+DROP TABLE IF EXISTS `sektori`;
+CREATE TABLE IF NOT EXISTS `sektori` (
+  `sektor_id` int(10) NOT NULL,
+  `naziv` varchar(55) NOT NULL,
+  PRIMARY KEY (`sektor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `sektori` (`sektor_id`, `naziv`) VALUES
+(1, 'Uprava'),
+(2, 'Administracija'),
+(3, 'Marketing'),
+(4, 'Razvoj softvera'),
+(5, 'Testiranje'),
+(6, 'Prodaja');
+
+
+ALTER TABLE `radnici`
+  ADD CONSTRAINT `radnici_ibfk_1` FOREIGN KEY (`sektor_id`) REFERENCES `sektori` (`sektor_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+

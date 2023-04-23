@@ -1,0 +1,35 @@
+CREATE TABLE Treneri(
+    trenerskaLicenca INT PRIMARY KEY,
+    ime VARCHAR(45),
+    prezime VARCHAR(45),
+    tekuciRacun INT(18),
+    ulica VARCHAR(45),
+    broj VARCHAR(10),
+    grad VARCHAR(25),
+    telefon INT(15)
+) ENGINE = INNODB
+
+CREATE TABLE Grupe(
+    grupaID INT PRIMARY KEY,
+    najmladjiClan INT,
+    najstarijiClan INT
+) ENGINE = INNODB
+
+CREATE TABLE Uloge(
+    ulogaID INT PRIMARY KEY,
+    naziv VARCHAR(45)
+) ENGINE = INNODB
+
+CREATE TABLE GrupeTrenera(
+    grupaTrenerID INT PRIMARY KEY,
+    Pocetak DATE,
+    Zavrsetak DATE,
+    trenerskaLicenca INT,
+    grupaID INT,
+    ulogaID INT,
+    FOREIGN KEY(trenerskaLicenca) REFERENCES treneri(trenerskaLicenca) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(grupaID) REFERENCES grupe(grupaID) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(ulogaID) REFERENCES uloge(ulogaID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+

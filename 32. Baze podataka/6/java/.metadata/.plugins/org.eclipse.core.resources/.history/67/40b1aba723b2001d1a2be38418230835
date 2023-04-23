@@ -1,0 +1,25 @@
+package paket;
+
+public class PutnickoVozilo extends Vozilo{
+	
+	private double tezinaPutnika;
+
+	PutnickoVozilo(double tezina, double teret) {
+		super(tezina);
+		this.tezinaPutnika = teret;
+	}
+
+	public char vrstaVozila() {
+		return 'P';
+	}
+
+	public double getOpterecenje() {
+		return this.tezinaPutnika + this.getTezina();
+	}
+
+	public String opis() {
+		return "Vozilo opterecenja " + getOpterecenje() + " ima oznaku: " + vrstaVozila();
+	}
+
+
+}

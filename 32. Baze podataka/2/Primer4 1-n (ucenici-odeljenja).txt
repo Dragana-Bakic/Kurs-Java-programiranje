@@ -1,0 +1,35 @@
+CREATE DATABASE baza34_cas_1_n
+
+CREATE TABLE ucenici(
+    ucenikID int PRIMARY KEY,
+    imeUcenika varchar(50),
+    prezimeUcenika varchar(50)
+    ) ENGINE = INNODB;
+
+CREATE TABLE odeljenja(
+    odeljenjeID int PRIMARY KEY,
+    razred int(2),
+    oznaka varchar(10) not null
+    ) ENGINE = INNODB;
+
+ALTER TABLE ucenici 
+ADD COLUMN odeljenjeID int
+
+ALTER TABLE ucenici
+ADD FOREIGN KEY(odeljenjeID) REFERENCES odeljenja(odeljenjeID)
+ON UPDATE CASCADE 
+ON DELETE NO ACTION 
+
+
+INSERT INTO `odeljenja`(`odeljenjeID`, `razred`, `oznaka`) 
+VALUES (1,1,1),(2,1,2),(3,1,3)
+
+INSERT INTO `ucenici`(`ucenikID`,`imeUcenika`, `prezimeUcenika`, `odeljenjeID`) 
+VALUES (1,"Mika","Mikic", 1)
+
+INSERT INTO `ucenici`(`ucenikID`,`imeUcenika`, `prezimeUcenika`, `odeljenjeID`) 
+VALUES (2,"Andrija","djurisic", 3)
+
+
+INSERT INTO `ucenici`(`ucenikID`,`imeUcenika`, `prezimeUcenika`, `odeljenjeID`) 
+VALUES (3,"Petar","Vranic", 3)

@@ -1,0 +1,23 @@
+Zadatak:
+Kreirati tabelu u kojoj se pamte podaci o osobama sa sledecim atributima 
+id, ime, prezime, godine, mail, telefon. 
+Uneti bar tri podatka u tabelu.
+
+Resenje:
+CREATE DATABASE baza_34_cas_1_1	
+
+CREATE TABLE Osobe(
+    osobaID int PRIMARY KEY AUTO_INCREMENT,
+    ime varchar(30) not null,
+    prezime varchar(30) not null,
+    godine int not null,
+    email varchar(50) not null,
+    telefon varchar(15) not null
+)
+  
+INSERT INTO Osobe(ime, prezime, godine, email, telefon) 
+VALUES ("Mika","Mikic",20, "mikamikic@gmail.com", "063/666-77-88")
+
+
+INSERT INTO Osobe(ime, prezime, godine, email, telefon) 
+VALUES ("Zika","Zikic",40, "zikazikic@gmail.com", "062/123-59-206"), ("Pera","Peric",35, "peraperic@gmail.com", "069/182-55-107")

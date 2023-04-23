@@ -1,0 +1,8 @@
+CREATE DATABASE biblioteka;
+
+CREATE TABLE biblioteke(
+    bibliotekaID INT PRIMARY KEY AUTO_INCREMENT,
+    ImeBiblioteke VARCHAR(45) NOT NULL,
+    Ulica VARCHAR(45) NOT NULL,
+    Broj VARCHAR(45) NOT NULL
+)

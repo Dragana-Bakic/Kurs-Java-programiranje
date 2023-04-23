@@ -1,0 +1,55 @@
+
+CREATE TABLE predavaci(
+    predavacID INT PRIMARY KEY NOT NULL,
+    imePredavaca VARCHAR(45),
+    prezimePredavaca VARCHAR(45),
+    nazivUlice VARCHAR(45),
+    brojUlice VARCHAR(10),
+    nazivGrada VARCHAR(25),
+    brojRacuna VARCHAR(45),
+    telefon VARCHAR(25),
+    zaposlenOd VARCHAR(25)
+) ENGINE = INNODB CREATE
+
+CREATE TABLE kursevi(
+    kursID INT PRIMARY KEY NOT NULL,
+    nazivKursa VARCHAR(45),
+    brojCasova INT(3),
+    planKursa VARCHAR(500),
+    predavacID INT,
+    FOREIGN KEY(predavacID) REFERENCES predavaci(predavacID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+CREATE TABLE realizacije(
+    realizacijaID INT PRIMARY KEY NOT NULL,
+    datumPocetka VARCHAR(25),
+    datumKraja VARCHAR(25),
+    brojPolaznika INT(2),
+    kursID INT,
+    FOREIGN KEY(kursID) REFERENCES kursevi(kursID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+INSERT INTO `predavaci`(`predavacID`, `imePredavaca`, `prezimePredavaca`, `nazivUlice`, `brojUlice`, `nazivGrada`, `brojRacuna`, `telefon`, `zaposlenOd`) 
+VALUES (1, "Lazar", "Lazic", "Ulica 1", 10, "Novi Grad", "11220005632", "066-522-53-113", '2023-02-07')
+
+INSERT INTO `kursevi`(`kursID`, `nazivKursa`, `brojCasova`, `planKursa`, `predavacID`) 
+VALUES (1, "Baze podataka", 60, "Osnove baze podataka", 1)
+
+INSERT INTO `realizacije`(`realizacijaID`, `datumPocetka`, `datumKraja`, `brojPolaznika`, `kursID`) 
+VALUES (1,'2023-01-05','2023-02-28', 25, 1)
+
+
+------------------------------------------------------------------------------------------------------------------------------
+#Neciji drugi nacin pravljenja:
+
+CREATE TABLE IF NOT EXISTS `skolastranihjezika`.`realizacije`(
+    `realizacija_id` INT UNSIGNED NOT NULL,
+    `datum_pocetka` DATE NULL,
+    `datum_zavrsetka` DATE NULL,
+    `broj_polaznika` INT NULL,
+    `kurs_id` INT UNSIGNED NULL,
+    PRIMARY KEY(`realizacija_id`),
+    INDEX `kurs_id_idx`(`kurs_id` ASC) VISIBLE,
+    CONSTRAINT `kurs_id` FOREIGN KEY(`kurs_id`) REFERENCES `skolastranihjezika`.`kursevi`(`kurs_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB
+

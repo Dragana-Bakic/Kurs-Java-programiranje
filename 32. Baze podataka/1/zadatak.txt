@@ -1,0 +1,22 @@
+# U bazi podataka treba čuvati podatke o dva tipa entiteta: 
+VOZILO, sa atributima Tip, RegistarskiBroj, BrojMotora, BrojSasije, i 
+VLASNIK sa atributima LicnoIme, Prezime, Adresa, BrojDozvole
+
+CREATE TABLE Vozila1(
+
+    RegistarskiBroj int PRIMARY KEY NOT null,
+    TipVozila varchar(55) NOT null,
+    BrojMotora int(15) NOT null,
+    BrojSasije int(15) NOT null
+    
+)
+
+CREATE TABLE Vlasnik(
+
+    VlasnikID int PRIMARY KEY AUTO_INCREMENT,
+    LicnoIme varchar(20) NOT null,
+    Prezime varchar(20) NOT null,
+    Adresa varchar(20) NOT null,
+    BrojDozvole int(15) NOT null
+    
+)

@@ -1,0 +1,25 @@
+package paket;
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		char vrstaVozila;
+		
+		System.out.println("Unesite P za putnicko i T za teretno vozilo:");
+		vrstaVozila = sc.next().charAt(0);
+		
+		switch (vrstaVozila) {
+		case 'P' : {
+				
+			}
+				
+		}
+		
+		package paket; import java.util.Scanner; public class Main { public static void main(String[] args) { Scanner sc = new Scanner(System.in); System.out.println("Unesite nosivost mosta"); double nosivost = sc.nextDouble(); System.out.println("Unesite oznaku vozila"); char oznaka = sc.next().charAt(0); System.out.println("Unesite tezinu vozila."); double tezina = sc.nextDouble(); switch(oznaka) { case 'p': case 'P': System.out.println("Unesite broj putnika."); int broj = sc.nextInt(); System.out.println("Unesite prosecnu tezinu."); double prosek = sc.nextDouble(); Putnicko p = new Putnicko(oznaka, tezina, broj, prosek); if(nosivost < p.ukupnaTezinaVozila()) { System.out.println("Most nece izdrzati ovo vozilo! "); } else { System.out.println("Vozilo moze preci preko mosta bezbedno."); } break; case 't': case 'T': System.out.println("Unesite teret vozila."); double teret = sc.nextDouble(); Teretno t = new Teretno(oznaka, tezina, teret); if(nosivost < t.ukupnaTezinaVozila()) { System.out.println("Most nece izdrzati ovo vozilo! "); } else { System.out.println("Vozilo moze preci preko mosta bezbedno."); } break; default: System.out.println("Morate uneti T za teretno vozilo ili p za putnicko vozilo"); } sc.close(); } }
+
+	}
+
+}

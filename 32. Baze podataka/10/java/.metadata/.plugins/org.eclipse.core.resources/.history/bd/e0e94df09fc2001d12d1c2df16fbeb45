@@ -1,0 +1,44 @@
+package dragana.bakic;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Zadatak3_update {
+
+	public static void main(String[] args) {
+
+		String url = "jdbc:mysql://localhost:3306/biblioteka";
+		String username = "root";
+		String password = "";
+
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Uspesna konekcija ka bazi");
+
+			String update = "UPDATE biblioteke SET ImeBiblioteke = ?, Ulica = ?, Broj = ? WHERE bibliotekaID = ?";
+			PreparedStatement ps = conn.prepareStatement(update);
+
+			ps.setString(1, "Druga biblioteka");
+			ps.setString(2, "ista Ulica");
+			ps.setString(3, "12");
+
+			ps.setString(4, "1");
+
+			int promenjenPodatak = ps.executeUpdate();
+
+			if (promenjenPodatak > 0) {
+				System.out.println("Izmena je izvršena!");
+			}
+
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

@@ -1,0 +1,233 @@
+------------------------------------------podupiti---------------------------------------------------------------------
+Zadatak1:
+
+SELECT sifra, naziv, bodovi 
+FROM predmet 
+WHERE bodovi > (SELECT AVG(bodovi) FROM predmet)
+
+Zadatak2:
+
+SELECT id_predmeta, 
+(SELECT COUNT(*) FROM ispit WHERE ispit.id_predmeta = predmet.id_predmeta AND ispit.ocena > 5) 
+AS Polozilo 
+FROM predmet
+
+Zadatak3:
+
+SELECT naziv 
+FROM predmet 
+WHERE EXISTS(SELECT * FROM ispit WHERE ispit.id_predmeta = predmet.id_predmeta AND ocena > 5 AND indeks = 20140022)
+
+
+----------------------------------------vise inera--------------------------------------------------------------------------
+
+Zadatak1
+SELECT dosije.indeks, dosije.ime, dosije.prezime, predmet.naziv, ispit.ocena 
+FROM dosije 
+INNER JOIN ispit ON dosije.indeks = ispit.indeks 
+INNER JOIN predmet ON ispit.id_predmeta = predmet.id_predmeta 
+WHERE ocena > 5
+
+Bajovic:
+SELECT ispit.indeks, CONCAT(Dosije.ime, ' ', Dosije.prezime) AS ime_studenta, GROUP_CONCAT(predmet.naziv SEPARATOR ', ') AS polozeni_predmeti, GROUP_CONCAT(ispit.ocena SEPARATOR ', ') AS ocene_na_ispitu FROM ispit JOIN Dosije ON ispit.indeks = Dosije.indeks JOIN predmet ON ispit.id_predmeta = predmet.id_predmeta WHERE ispit.ocena >= 6 GROUP BY ispit.indeks, ime_studenta ORDER BY ispit.indeks
+
+
+Zadatak 2:
+
+SELECT DINSTINCT dosije.*, predmet.naziv, ispit.ocena
+FROM dosije INNER JOIN ispit USING (indeks) INNER JOIN predmet USING (id_predmeta)
+WHERE prezime LIKE '____o%c' AND sifra BETWEEN 'M105' AND 'P103' AND ocena IN(6,8,10)
+
+---------------------------------------datumi-------------------------------------------------------------------------
+Zadatak1:
+SELECT 
+dayofyear(CURRENT_DATE), 
+week(CURRENT_DATE), 
+dayofweek(CURRENT_DATE), 
+dayname(CURRENT_DATE), 
+monthname(CURRENT_DATE)
+
+Zadatak2:
+SELECT * from ispit WHERE datum_ispita > date('2015-01-19')
+
+SELECT DATE_FORMAT(datum_ispita, '%d-%m-%Y') AS Datum FROM ispit WHERE datum_ispita > '2015-01-01';
+
+Zadatak3:
+SELECT * 
+FROM ispit 
+WHERE datum_ispita > DATE_SUB(now(), INTERVAL 88 MONTH)
+
+DATE_SUB oduzima od trenutnog datuma zadati broj meseca
+
+--------------------------------------prakticnaPrimena-----------------------------------------------------------
+
+1.Iz baze izbrisati podatke o studentima rodenim 1990. godine. 
+
+SELECT * 
+FROM dosije
+WHERE datum_rodjenja Like('1990-%-%')
+
+DELETE FROM dosije WHERE YEAR(dosije.datum_rodjenja) = 1990
+
+
+2.Iz baze izbrisati ispite u kojima je polagan predmet Programiranje 2 ili predmet koji ima 15 bodova. 
+
+DELETE FROM ispit WHERE id_predmeta=(SELECT id_predmeta from predmet WHERE naziv='Programiranje 2' OR bodovi = 15)
+
+3.Svim predmetima cija šifra pocinje sa P povecati broj bodova za 20%. 
+UPDATE predmet 
+SET bodovi = bodovi * 1.2 
+WHERE sifra LIKE 'P%'
+
+------------------------------------------------procedure------------------------------------------------------------------
+sintaksa:
+DELIMITER //
+
+CREATE PROCEDURE nazivProcedure()
+BEGIN
+-- Telo procedure
+END //
+
+DELIMITER ;
+
+-----------------
+#Procedura koja ispisuje sve vrednosti tabele t
+DELIMITER $$ 
+CREATE PROCEDURE p1() 
+BEGIN 
+SELECT * 
+FROM t; 
+END $$ 
+DELIMITER ;
+
+CALL p1()
+
+#Procedura sa ulaznim parametrom
+IN - ulazni parametar
+
+DELIMITER // 
+CREATE PROCEDURE p2(IN p int) 
+BEGIN 
+SET @x = p; 
+END // 
+DELIMITER ; 
+
+CALL p2(12345); 
+SELECT @x;
+
+
+#Prikazati sve podatke tabele test 2 ako se kao ulazni parametar stavi god
+
+DELIMITER // 
+CREATE PROCEDURE proverapogodini(IN p year) 
+BEGIN 
+SELECT * FROM test2 WHERE god = p;
+END // DELIMITER ;
+
+CALL proverapogodini(1999) 
+
+sa year nece kod nas da radi pa staviti int ili year i like umesto =
+
+DELIMITER // 
+CREATE PROCEDURE proverapogodini(IN p INT)
+BEGIN 
+SELECT * FROM test2 WHERE god = p;
+END // DELIMITER ;
+
+DELIMITER // 
+CREATE PROCEDURE proverapogodini(IN p year) 
+BEGIN 
+SELECT * FROM test2 WHERE god Like 'p';
+END // DELIMITER ;
+
+#Procedura sa izlaznim parametrom
+
+DELIMITER //
+CREATE PROCEDURE p3(OUT p int)
+BEGIN
+SET p = 10;
+END// 
+DELIMITER ;
+
+CALL p3(@t);
+SELECT @t
+
+-------------------
+# treba ispisati trenutni datum i slucajnu vrednost
+DELIMITER // 
+CREATE PROCEDURE p5() 
+BEGIN 
+SELECT CURRENT_DATE, RAND(); 
+END // 
+DELIMITER ;
+
+CALL p5();
+
+ili
+
+DELIMITER // 
+DROP PROCEDURE IF EXISTS p6 //
+CREATE PROCEDURE p6(OUT p DATE, v double) 
+BEGIN 
+SET p = CURRENT_DATE(); 
+SET v = RAND(); 
+END // 
+DELIMITER ;
+
+CALL p6(@v, @t);
+SELECT @t, @v;
+
+-----------------------Declare naredba
+DELIMITER // 
+CREATE PROCEDURE p8() 
+BEGIN 
+DECLARE a int; 
+DECLARE b int; 
+SET a = 5; 
+set b = 5; 
+INSERT INTO t VALUES(a); 
+SELECT s1 * a from t 
+WHERE s1 >= b; 
+END // 
+DELIMITER ;
+
+call p8();
+
+----------DEFAULT klauzula
+
+DELIMITER // 
+CREATE PROCEDURE p9() 
+BEGIN 
+DECLARE a, b int 
+DEFAULT 10; 
+INSERT INTO t VALUES(a); 
+SELECT s1 * a from t WHERE s1 >= b; 
+END // 
+DELIMITER ; 
+
+CALL p9()
+
+----
+#Napisati proceduru koja izracunava povrsinu kruga
+DELIMITER // 
+CREATE PROCEDURE povrsina(IN x double, OUT p double) 
+BEGIN 
+SET p = r * r * PI(); 
+END // 
+DELIMITER ;
+
+CALL povrsina(10, @t);
+SELECT @t
+
+#Napisati proceduru koja izracunava povrsinu pravougaonika
+DELIMITER // 
+CREATE PROCEDURE povrsinapravougaonika(IN a double, IN b double, OUT p double) 
+BEGIN 
+SET p = a * b; 
+END // 
+DELIMITER ;
+
+CALL povrsinapravougaonika(10, 30, @t);
+SELECT @t AS Povrsina
+
+

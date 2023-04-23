@@ -1,0 +1,83 @@
+1. Prikazati sve radnike koji rade u 2. sektoru. 
+SELECT * 
+FROM radnici 
+WHERE brsek = 2
+
+2. Prikazati sve muske radnike. 
+SELECT *
+FROM radnici 
+WHERE pol = 'M'
+
+3. Prikazati sve radnike koji su rodjeni izmedju 1990 i 2000 godine. 
+SELECT *
+FROM radnci 
+WHERE datumrodj BETWEEN '1990-01-01' and '2001-01-01';
+
+4. Prikazati sve zenske radnike koji su stariji od 20 godina. 
+SELECT * 
+FROM radnici 
+WHERE pol = 'Z' AND datumrodj < '2003-02-09'
+
+5.Prikazati sve muske radnike cija je plata manja od 64321.
+SELECT * 
+FROM radnici 
+WHERE pol ='M' AND plata <64321
+
+6. Prikazati sve muske radnike koji imaju platu vecu od 65000 i koji u imenu imaju slovo M na prvo mesto. 
+SELECT * 
+FROM radnici 
+WHERE pol = 'M' AND ime LIKE "M%" AND plata > 65000;
+
+7. Prikazati sve zenske radnike koji imaju platu vecu od 60000 i koji nemaju slovo N u imenu. 
+SELECT * 
+FROM radnici 
+WHERE pol = 'Z' AND plata > 60000 AND ime NOT LIKE "%N%"
+
+8. Prikazati sve radnike po sektorima sortirane prema broju sektora u kome rade silazno, a prema imenu isto silazno. 
+SELECT * 
+FROM radnici 
+ORDER BY brsek DESC, ime DESC
+
+9. Prikazati zbirnu platu svih radnika koji rade u 2. sektoru. 
+SELECT SUM(plata) 
+AS Zbirnaplata
+FROM radnici 
+WHERE brsek = 2 
+
+10. Prikazati samo najvecu i samo najmanju platu iz svih sektora.. 
+SELECT min(plata) 
+AS NajmanjaPlata, 
+max(plata) 
+AS NajvecaPlata 
+FROM radnici;
+
+11. Prikazati sve radnike zenskog pola koje su rodjene 1987 godine. 
+
+1. nacin:
+SELECT * 
+FROM radnici
+where pol = 'Z' and datumrodj between "1987-01-01" AND "1987-12-31"
+
+2.nacin:
+SELECT * 
+FROM radnici 
+WHERE datumrodj LIKE('1987-%-%')
+
+12. Prikazati sve muske osobe koje rade Testiranje i koje su starije od 1990g.
+
+1.nacin
+SELECT * 
+FROM radnici
+WHERE pol = 'M' AND brsek = 5 and datumrodj < '1990-12-31'
+
+2.nacin
+SELECT * 
+FROM radnici 
+WHERE pol = "M" AND brsek = 5 AND datumrodj < '1990-%-%' // ali ne radi
+
+3.nacin
+SELECT * 
+FROM radnici 
+WHERE pol = "M" AND brsek = 5 AND YEAR(datumrodj) < 1990 
+
+

@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\Misa\Documents\MISANU\Predavanja\38. cas Uvod u baze podataka\java\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+2794114343.index
+501451356.index

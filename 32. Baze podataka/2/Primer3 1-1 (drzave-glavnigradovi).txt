@@ -1,0 +1,23 @@
+CREATE TABLE drzave(
+    drzavaID int PRIMARY KEY AUTO_INCREMENT,
+    naziv varchar(50),
+    brojStanovnika int
+    ) engine = INNODB;
+
+CREATE TABLE glavnigradovi(
+    gradID int PRIMARY KEY AUTO_INCREMENT,
+    nazivGrada varchar(50),
+    brojStanovnika int
+    ) engine = INNODB;
+
+ALTER TABLE glavnigradovi
+ADD FOREIGN KEY(gradID) REFERENCES drzave(drzavaID)
+
+INSERT INTO `drzave`(`naziv`, `brojStanovnika`) 
+VALUES ("Grcka",10640000)
+
+INSERT INTO `drzave`(`naziv`, `brojStanovnika`) 
+VALUES ("Francuska",2244000)
+
+INSERT INTO `glavnigradovi`( `nazivGrada`, `brojStanovnika`) 
+VALUES ("Atina",3090000), ("Pariz", 2244000)

@@ -1,0 +1,35 @@
+CREATE TABLE Sektori(
+    sektorID INT PRIMARY KEY,
+    NazivSektora VARCHAR(45),
+    Adresa VARCHAR(55),
+    Broj VARCHAR(10),
+    Grad VARCHAR(30),
+    TelefonCentrale INT(15)
+) ENGINE = INNODB
+
+CREATE TABLE Zaposleni(
+    ZaposlenID INT PRIMARY KEY,
+    Ime VARCHAR(45),
+    Prezime VARCHAR(45),
+    Telefon INT(15),
+    Ulica VARCHAR(55),
+    Broj VARCHAR(10),
+    Grad VARCHAR(30),
+    TekuciRacun INT(18),
+    DatumZaposlenja DATE,
+    BrojLokala INT(15),
+    sektorID INT,
+    FOREIGN KEY(sektorID) REFERENCES sektori(sektorID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+CREATE TABLE Pozivi(
+    PozivID INT PRIMARY KEY,
+    PozvaniBroj INT(15),
+    VremePocetkaPoziva TIMESTAMP,
+    duzinaTrajanjaPoziva TIME
+) ENGINE = INNODB
+
+ALTER TABLE Pozivi 
+    ADD COLUMN zaposlenID INT,
+    ADD FOREIGN KEY(zaposlenID) REFERENCES zaposleni(zaposlenID) ON UPDATE CASCADE ON DELETE NO ACTION
+

@@ -1,0 +1,27 @@
+create TABLE polaznici(
+    polaznikID int PRIMARY KEY,
+    ime varchar(30) not null,
+    prezime varchar(30) not null,
+    godine int not null
+    ) engine = INNODB;
+
+create TABLE if not EXISTS kontakti(
+    kontaktID int PRIMARY KEY,
+    email varchar(45),
+    telefon varchar(45)
+    ) engine = INNODB;
+
+ALTER TABLE kontakti
+ADD FOREIGN KEY(kontaktID) REFERENCES polaznici(polaznikID)  // povezivanje primarnih kljuceva da bi se povezale tabele
+
+INSERT INTO polaznici(polaznikID, ime, prezime, godine) 
+VALUES (1,"Mika","Mikic",20)
+
+INSERT INTO polaznici(polaznikID, ime, prezime, godine) 
+VALUES (1,"Zika","Zikic",40)
+
+INSERT INTO kontakti(kontaktID, email, telefon) 
+VALUES (1,"mikamikic@gmail.com","06234554321")
+
+INSERT INTO kontakti(kontaktID, email, telefon) 
+VALUES (2,"zikazikic@gmail.com","0698019583")

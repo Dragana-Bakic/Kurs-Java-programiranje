@@ -1,0 +1,83 @@
+
+
+create table dosije (
+
+       indeks           integer      not null,
+       ime              varchar(20)  not null,
+       prezime          varchar(25)  not null,
+       datum_upisa      date                 ,
+       datum_rodjenja   date                 ,
+       mesto_rodjenja   varchar(100)         ,
+       primary key      (indeks)
+);
+
+insert into dosije(indeks,ime,prezime,datum_upisa,datum_rodjenja,mesto_rodjenja) values
+(20140021, 'Milos'   , 'Peric'      , '2014-07-06', '1995-01-20', 'Beograd' ),
+(20140022, 'Marijana', 'Savkovic'   , '2014-07-05', '1995-03-11', 'Kraljevo'),
+(20130023, 'Sanja'   , 'Terzic'     , '2013-07-04', '1994-11-09', 'Beograd' ),
+(20130024, 'Nikola'  , 'Vukovic'    , '2013-07-04', '1994-09-17',  null     ),
+(20140025, 'Marijana', 'Savkovic'   , '2014-07-06', '1995-02-05', 'Kraljevo'),
+(20140026, 'Zorica'  , 'Miladinovic', '2014-07-06', '1995-10-08', 'Vranje'  ),
+(20130027, 'Milena'  , 'Stankovic'  , null,  null, null     );
+
+
+create table predmet (
+       id_predmeta     integer      not null,
+       sifra           varchar(5)   not null,
+       naziv           varchar(40)  not null,
+       bodovi          smallint     not null,
+       primary key(id_predmeta)
+);
+
+
+insert into predmet values
+(1001, 'M111', 'Analiza 1', 6)                          ,
+(1002, 'M112', 'Analiza 2', 6)                          ,
+(1003, 'M113', 'Analiza 3', 6)                          ,
+(1021, 'M131', 'Geometrija', 6)                         ,
+(1101, 'M105', 'Diskretne strukture 1', 6)              ,
+(1102, 'M106', 'Diskretne strukture 2', 6)              ,
+(2001, 'P101', 'Programiranje 1', 8)                    ,
+(2002, 'P102', 'Programiranje 2', 8)                    ,
+(2003, 'P103', 'Objektno orijentisano programiranje', 6),
+(2004, 'P104', 'Algoritmi i strukture podataka', 6)     ,
+(3001, 'S1'  , 'Engleski jezik 1', 5)                   ,
+(3002, 'S2'  , 'Engleski jezik 2', 5)                   ,
+(4001, 'R101', 'Uvod u organizaciju racunara', 5)       ,
+(4002, 'R102', 'Uvod u Veb i Internet tehnologije', 5)  ;
+
+create table ispitni_rok (
+       godina_roka     smallint     not null,
+       oznaka_roka     varchar(5)   not null,
+       naziv           varchar(15)  not null,
+       primary key (godina_roka, oznaka_roka)
+);
+
+insert into ispitni_rok values
+(2015, 'jan', 'Januar 2015')   ,
+(2015, 'feb', 'Februar 2015')  ,
+(2015, 'apr', 'April 2015')    ,
+(2015, 'jun', 'Jun 2015')      ,
+(2015, 'sep', 'Septembar 2015'),
+(2015, 'okt', 'Oktobar 2015')  ;
+
+create table ispit (
+       indeks          integer      not null                        ,
+       id_predmeta     integer      not null                        ,
+       godina_roka     smallint     not null                        ,
+       oznaka_roka     char(5)      not null                        ,
+       ocena           smallint     not null default 5         ,
+       datum_ispita    date                                         ,
+       bodovi          smallint                                     ,
+       primary key (indeks, id_predmeta, godina_roka, oznaka_roka)  
+       );
+
+insert into ispit(indeks, id_predmeta, godina_roka, oznaka_roka, ocena, datum_ispita, bodovi)  values 
+(20140021, 1001, 2015, 'jan', 9, '2015-01-20', 81),
+(20140022, 1001, 2015, 'jan', 8, '2015-01-20', 75),
+(20130023, 1001, 2015, 'jan', 8, '2015-01-20', 76),
+(20130024, 1001, 2015, 'jan', 10,'2015-01-20', 100),
+(20140025, 1001, 2015, 'jan', 6, '2015-01-20', 55),
+(20140026, 1001, 2015, 'jan', 5, '2015-01-20', 25),
+(20130027, 1001, 2015, 'jan', 8, '2015-01-20', 76),
+ (20130023,1002,2018,'jun',7,2018-06-10,6);

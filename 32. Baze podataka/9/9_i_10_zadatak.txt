@@ -1,0 +1,56 @@
+
+
+CREATE TABLE osobe (
+id int PRIMARY KEY AUTO_INCREMENT,
+    ime varchar(45) DEFAULT NULL,
+    prezime varchar(45) DEFAULT NULL,
+    godiste int(4) DEFAULT NULL,
+    status varchar(45) DEFAULT NULL
+)
+ENGINE = INNODB;
+
+CREATE TABLE brojIzmedju (
+	id int PRIMARY KEY AUTO_INCREMENT,
+    brojIzmedju int(11) 
+)
+ENGINE = INNODB;
+
+DELIMITER $$
+DROP TRIGGER if EXISTS brojIzmedju_TRIGGER $$
+CREATE TRIGGER brojIzmedju_TRIGGER AFTER INSERT ON `osobe` FOR EACH ROW
+BEGIN
+	INSERT INTO brojIzmedju (`brojIzmedju`) (SELECT COUNT(`osobe`.`id`)
+ FROM `osobe` WHERE `osobe`.`godiste` BETWEEN 1985 AND 1995);
+END ; $$
+
+
+
+INSERT INTO osobe (ime, prezime, godiste) VALUES
+("Pera", "Peric", 1990),
+("Zika", "Zikic", 2000),
+("Mika", "Mikic", 1987),
+("Nikola", "Nikolic", 2004)
+
+
+
+CREATE TABLE brojNeparnih(
+	id int PRIMARY KEY AUTO_INCREMENT,
+    brojNeparnih int(11) 
+)
+ENGINE = INNODB;
+
+
+DELIMITER $$
+CREATE TRIGGER brojNeparnih_TRIGGER AFTER INSERT ON osobe FOR EACH ROW
+BEGIN
+	INSERT INTO `brojneparnih`(`brojNeparnih`)  (SELECT COUNT(`osobe`.`id`) FROM 
+`osobe` WHERE `osobe`.`godiste` MOD 2 = 1);
+END ; $$
+
+
+INSERT INTO osobe (ime, prezime, godiste) VALUES
+("Pera", "Peric", 1990),
+("Zika", "Zikic", 2000),
+("Mika", "Mikic", 1987),
+("Nikola", "Nikolic", 2004)
+

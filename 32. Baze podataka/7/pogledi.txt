@@ -1,0 +1,32 @@
+Zadatak 1. Kreirati VIEW koji sadrzi šifre i nazive predmeta koji imaju izmedu 8 i 15 bodova.
+CREATE VIEW zadatak1 AS SELECT predmet.id_predmeta, predmet.naziv FROM predmet WHERE bodovi BETWEEN 8 AND 15
+
+Zadatak 2. Kreirati VIEW koji sadrzi podatke o ispitima na kojima student ima 81, 76 ili 59 bodova.
+CREATE VIEW Zadatak2 AS SELECT * FROM ispit WHERE bodovi IN(81, 76, 59)
+
+Zadatak3. Kreirati View koji sadrzi nazive predmeta koji imaju po 6 bodova i koje je polagao student sa indeksom 20140021.
+
+CREATE VIEW Zadatak3 AS 
+SELECT predmet.naziv, predmet.bodovi, ispit.indeks 
+FROM predmet INNER JOIN ispit
+USING(id_predmeta)
+WHERE predmet.bodovi = 6 AND ispit.indeks = 20140021
+
+Zadatak4. Kreirati View koji sadrzi naziv ispitnog roka koji je održan izmedu 2010. i 2015. godine i koji u oznaci sadrži slovo p. 
+Rezultat urediti prema nazivu u opadajucem poretku.
+
+CREATE VIEW zadatak4 AS 
+SELECT naziv
+FROM ispitni_rok
+WHERE godina_roka BETWEEN 2000 AND 2015 AND naziv LIKE('%p')
+ORDER BY naziv DESC
+
+Zadatak5.  Kreitati  VIEW  koji  sadrzi  ime,  prezime  i  datum  rodenja  studenata  koji  su  rodeni  izmedu 4.2.1995. i 10.10.1995. i urediti rezultat prema prezimenu studenta.
+
+CREATE VIEW zadatak5 AS 
+SELECT ime, prezime, datum_rodjenja
+FROM dosije
+WHERE datum_rodjenja BETWEEN '1995-02-04' AND '1995-10-10'
+ORDER BY prezime 
+
+

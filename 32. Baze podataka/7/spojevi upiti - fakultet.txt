@@ -1,0 +1,39 @@
+Zadatak1:Prikazati podatke o studentima i njihovim ispitima koji su održani 28.1.2015. 
+Izdvojiti indeks, ime i prezime studenta, id predmeta i ocenu.. 
+
+SELECT d.indeks, d.ime, d.prezime, i.id_predmeta, i.ocena 
+FROM dosije AS d INNER JOIN ispit AS i
+USING (indeks)
+WHERE i.oznaka_roka = 'jan';
+
+SELECT d.indeks, d.ime, d.prezime, i.id_predmeta, i.ocena 
+FROM dosije AS d INNER JOIN ispit AS i
+USING (indeks)
+WHERE i.datum_ispita = '2015-01-20';
+
+Zadatak2: Za svaki predmet izdvojiti naziv, godinu i oznaku roka u kojima je taj predmet polagan. 
+Rezultat urediti prema nazivu predmeta.
+
+SELECT DISTINCT p.naziv, i.godina_roka, i.oznaka_roka
+FROM predmet AS p INNER JOIN ispit AS i
+USING (id_predmeta)
+ORDER BY p.naziv
+
+Čanak rešenje: SELECT DISTINCT r.naziv, i.ocena FROM ispit AS i INNER JOIN ispitni_rok AS r USING (oznaka_roka, godina_roka) ORDER BY r.naziv ili SELECT DISTINCT r.naziv, i.ocena FROM ispitni_rok AS r INNER JOIN ispit AS i ON r.godina_roka = i.godina_roka AND r.oznaka_roka = i.oznaka_roka ORDER BY r.naziv
+
+Zadatak3:  Prikazati  nazive  predmeta  koje  je  polagao  neki  student  u  januarskom  ispitnom  roku  2015. godine.
+
+SELECT DISTINCT p.naziv 
+FROM predmet AS p INNER JOIN ispit 
+USING (id_predmeta) 
+WHERE godina_roka = 2015 AND oznaka_roka = "jan"
+
+Zadatak4: Za svaki ispitni rok izdvojiti naziv ispitnog roka i ocene koje su dobijene u tom roku.
+Rezultat urediti prema nazivu ispitnog roka
+
+SELECT DISTINCT ir.naziv, ispit.ocena
+FROM ispitni_rok AS ir INNER JOIN ispit 
+USING (godina_roka) 
+ORDER BY ir.naziv
+
+

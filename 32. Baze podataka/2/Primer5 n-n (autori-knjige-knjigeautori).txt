@@ -1,0 +1,42 @@
+CREATE DATABASE baza34_cas_n_n
+
+CREATE TABLE knjige(
+    knjigaID int PRIMARY KEY,
+    naslov varchar(45)
+    ) ENGINE = INNODB;
+
+CREATE TABLE autori(
+    autorID int PRIMARY KEY,
+    imeAutora varchar(45),
+    prezimeAutora varchar(45)
+    ) ENGINE = INNODB;
+
+CREATE TABLE knjigeAutori(
+    knjigaAutorID int PRIMARY KEY AUTO_INCREMENT,
+    knjigaID int,
+    autorID int
+    ) ENGINE = INNODB;
+
+ALTER TABLE knjigeAutori
+ADD FOREIGN KEY(knjigaID) REFERENCES knjige(knjigaID)
+ON UPDATE CASCADE 
+ON DELETE NO ACTION 
+
+ALTER TABLE knjigeAutori
+ADD FOREIGN KEY(autorID) REFERENCES autori(autorID)
+ON UPDATE CASCADE 
+ON DELETE NO ACTION
+
+INSERT INTO knjige(knjigaID, naslov) 
+VALUES (1,"Na Drini cuprija"),(2,"Starac i more"),(3, "Tom Sojer"), (4, "Koreni")
+
+INSERT INTO autori(autorID, imeAutora, prezimeAutora) 
+VALUES (1,"Ivo","Andric"), (2,"Mark","Tven"), (3,"Dobrica","Cosic"),(4,"Ernest","Hemingvej")
+
+INSERT INTO knjigeAutori(knjigaID, autorID) 
+VALUES (1,1), (2,2), (3,3),(4,4)
+
+INSERT INTO knjigeAutori(knjigaID, autorID) 
+VALUES (4,3), (4,2)
+
+

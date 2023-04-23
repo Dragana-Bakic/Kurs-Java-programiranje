@@ -1,0 +1,41 @@
+# Pronaci nazive predmeta koji imaju manje bodova od predmeta sa nazivom Geometrija
+
+SELECT predmet.naziv, predmet.bodovi 
+FROM predmet 
+WHERE predmet.bodovi < ( SELECT bodovi FROM predmet WHERE naziv = 'geometrija' )
+
+# Izdvojiti nazive predmeta koje je polagao student sa indeksom 20140026
+podupit:
+SELECT id_predmeta
+FROM ispit
+WHERE indeks = 20140026
+
+SELECT naziv 
+FROM predmet 
+WHERE id_predmeta IN( SELECT id_predmeta FROM ispit WHERE indeks = 20140026 )
+
+# Izdvojiti indekse studenata koji su polozili bar jedan predmet koji nije prolozio student sa indeksom 20140022
+SELECT indeks 
+FROM ispit
+WHERE ocena > 5 AND id_predmeta NOT IN(SELECT id_predmeta FROM ispit WHERE indeks = 20140022 AND ocena > 5)
+
+# Izdvojiti identifikatore predmeta koji imaju vise od 5 bodova i nije ih polozio neki student 20.01.2015
+SELECT id_predmeta 
+FROM predmet
+WHERE bodovi > 5 AND id_predmeta NOT IN(SELECT id_predmeta FROM ispit WHERE ocena > 5 AND datum_ispita = 2015-01-20)
+
+# Izdvojiti indekse studenata koji su rodjeni u Beogradu i imaju ocenu 8. Rezultat urediti u opadajucem poretku.
+SELECT indeks
+FROM dosije
+WHERE mesto_rodjenja = "Beograd" AND indeks IN (SELECT indeks FROM ispit WHERE ocena = 8 ORDER BY indeks DESC)
+
+
+
+
+
+
+
+
+
+
+

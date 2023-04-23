@@ -1,0 +1,53 @@
+package vezba;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class raznoSelect {
+
+	public static void main(String[] args) {
+
+		String url = "jdbc:mysql://localhost:3306/vezba";
+		String user = "root";
+		String sifra = "";
+
+		try (Connection c = DriverManager.getConnection(url, user, sifra)) {
+
+			String select = "Select * from razno";
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(select);
+
+			while (rs.next()) {
+
+				int ID = rs.getInt(1);
+				String ime = rs.getString(2);
+				String datum = rs.getString(3);
+				int godine = rs.getInt(4);
+
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("\nID: ");
+				sb.append(ID);
+				sb.append("\nIme: ");
+				sb.append(ime);
+				sb.append("\nDatum: ");
+				sb.append(datum);
+				sb.append("\nGodine: ");
+				sb.append(godine);
+
+				System.out.println(sb.toString());
+
+			}
+
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

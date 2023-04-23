@@ -1,0 +1,32 @@
+#if
+#Ako se u tabeli čuva vrednost 5,6,7,8,9 ili 10 u koloni ocena, upit bi mogao umesto tih vrednosti da vraća ’Polozio’ ili ’Pao’
+
+SELECT IF(ocena = 5, 'Pao', 'Polozio') AS Status 
+FROM ispit;
+
+#Case
+SELECT CASE ocena WHEN 5 THEN 'Nije polozen ispit' ELSE 'Polozen ispit' END AS STATUS FROM ispit ;
+
+
+#Funkcija GREATEST( ) vraća najveću vrednost iz spiska.
+SELECT GREATEST(235, 1209, 79);
+
+#Funkcija LEAST( ) vraća najmanju vrednost iz spiska. 
+SELECT LEAST(kol1, kol2) FROM tabela; 
+Ili: 
+SELECT LEAST(234, 2109, 79);
+
+
+Zadatak 1.
+Klasifikovati predmete prema broju bodova na sledeci nacin:
+-ako predmet ima više od 7 bodova tada pripada I kategoriji
+-ako je broj bodova predmeta u intervalu [5,7] tada pripada II kategoriji
+-inace predmet pripada III kategoriji.
+-Izdvojiti naziv predmeta i kategoriju.
+
+SELECT naziv, CASE  
+WHEN bodovi > 7 THEN 'pripada I kategoriji' 
+WHEN bodovi >= 5 and bodovi <= 7  THEN 'pripada II kategoriji'
+ELSE 'pripada III kategoriji' END 
+AS Kategorija 
+FROM predmet ;

@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS products(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NULL,
+    price DECIMAL(10, 2) NULL,
+    category_id INT NOT NULL,
+    quantity_aviable INT NULL DEFAULT '0'    
+)
+ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS log_products(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(30) NULL,
+    old_price DECIMAL(10, 2) NULL,
+    new_price DECIMAL(10, 2) NULL,
+    created_at DATETIME NULL DEFAULT NULL
+)
+ENGINE = INNODB;
+
+INSERT INTO products (name, price, category_id, quantity_aviable) VALUES
+("abc", 5.67, 1, 1)

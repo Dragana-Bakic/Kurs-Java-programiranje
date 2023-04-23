@@ -1,0 +1,69 @@
+Моделовати базу података према следећим упутствима: 
+Удружење таксиста води евиденцију о свим вожњама. 
+Таксиста је запослен у удружењу и познате су његове контакт информације, као и број текућег рачуна. 
+За сваку вожњу се бележе датум, време почетка, дужина трајања, почетна локација и дестинација. 
+Вожња се обавља по одређеној тарифи. 
+За сваку тарифу су познати назив (дневна, ноћна, празнична, градска, ванградска и сл), опис и цена по минуту. 
+Таксиста има возачку доволу. Возачка дозвола има број, датум издавања и датум важења. 
+Возачка дозвола може да обухвата неколико категорија. За сваку категорију су познати ознака (А, Б, Ц и сл) и опис. 
+За сваку возачку дозволу и сваку категорију коју садржи је познат датум стицања те категорије од стране носиоца возачке дозволе.
+
+CREATE DATABASE taksiUdruzenje
+
+CREATE TABLE Taksisti(
+    taksistaID INT PRIMARY KEY AUTO_INCREMENT,
+    ime VARCHAR(45),
+    prezime VARCHAR(45),
+    telefon VARCHAR(45),
+    grad VARCHAR(45),
+    adresa VARCHAR(45),
+    broj VARCHAR(45),
+    tekuciRacun INT(18)
+) ENGINE = INNODB
+
+CREATE TABLE Tarife(
+    tarifaID INT PRIMARY KEY AUTO_INCREMENT,
+    naziv VARCHAR(45),
+    opis VARCHAR(100),
+    cena INT
+) ENGINE = INNODB
+
+CREATE TABLE Voznje(
+    voznjaID INT PRIMARY KEY AUTO_INCREMENT,
+    datumVoznje DATE,
+    vremePocetka TIME,
+    duzinaTrajanja INT,
+    pocetnaLokacija VARCHAR(45),
+    destinacija VARCHAR(45),
+    taksistaID INT,
+    tarifaID INT,
+    FOREIGN KEY(taksistaID) REFERENCES taksisti(taksistaID) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(tarifaID) REFERENCES tarife(tarifaID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+CREATE TABLE VozackeDozvole(
+    vozackaDozvolaID INT PRIMARY KEY AUTO_INCREMENT,
+    brojVozacke INT,
+    datumIzdavanja DATE,
+    datumVazenja DATE
+) ENGINE = INNODB
+
+CREATE TABLE Kategorije(
+    kategorijaID INT PRIMARY KEY AUTO_INCREMENT,
+    oznaka ENUM('A', 'B', 'C', 'D', 'E'),
+    opis VARCHAR(100)
+) ENGINE = INNODB
+
+CREATE TABLE KategorijeVozacke(
+    kategorijaVozackaID INT PRIMARY KEY AUTO_INCREMENT,
+    datumSticanja DATE,
+    vozackaDozvolaID INT,
+    kategorijaID INT,
+    FOREIGN KEY(vozackaDozvolaID) REFERENCES vozackedozvole(vozackaDozvolaID) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY(kategorijaID) REFERENCES kategorije(kategorijaID) ON UPDATE CASCADE ON DELETE NO ACTION
+) ENGINE = INNODB
+
+ALTER TABLE taksisti
+ADD FOREIGN KEY(taksistaID) REFERENCES vozackedozvole(vozackadozvolaID) ON UPDATE CASCADE ON DELETE NO ACTION
+
+INSERT INTO `tarife`( `naziv`, `opis`, `cena`) VALUES ("dnevna","Voznja od 06h do 19h radnim danima kada nisu praznici",50), ("nocna","Voznja od 19h do 06h radnim danima kada nisu praznici",80), ("praznicna dnevna","Voznja od 08 do 19 radnim danima kada su praznici",100), ("praznicna nocna","Voznja od 19h do 06h radnim danima kada su praznici",160)

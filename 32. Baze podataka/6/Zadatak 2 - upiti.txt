@@ -1,0 +1,111 @@
+2.
+SELECT *
+FROM emp
+WHERE deptno = 10
+
+3.
+SELECT *
+FROM emp
+WHERE DEPTNO = 10 or COMM IS NOT Null OR SAL <= 2000
+
+4.
+SELECT concat(ename, ' WORKS AS A ', job) AS Upit 
+FROM emp
+WHERE deptno = 10
+
+5.
+SELECT ENAME, SAL, 
+CASE 
+WHEN SAL <= 2000 THEN "UNDERPAIND"
+WHEN SAL >= 4000 THEN "OVERPAID"
+ELSE "OK"
+END AS value
+FROM EMP;
+
+6.
+SELECT *
+FROM emp LIMIT 5
+
+7.
+SELECT RAND(), ENAME, JOB
+FROM emp LIMIT 5
+
+8. 
+SELECT *
+FROM emp 
+WHERE COMM IS Null
+
+9.
+SELECT *
+FROM emp 
+WHERE ENAME LIKE "%i%" OR JOB LIKE "%er" AND DEPTNO IN(10,20)
+
+10.
+SELECT ENAME, JOB, SAL
+FROM emp 
+WHERE DEPTNO = 10
+ORDER BY SAL
+
+11.
+SELECT *
+FROM emp 
+ORDER BY DEPTNO, SAL DESC
+
+12.
+SELECT * 
+FROM EMP 
+ORDER BY (CASE WHEN JOB = "SALESMAN" THEN COMM ELSE SAL END);
+
+13.
+SELECT AVG(SAL) AS ProsecnaPlata
+FROM emp 
+
+14.
+SELECT DEPTNO AS Odeljenje, AVG(SAL) AS ProsecnaPlataSektora
+FROM emp 
+GROUP BY DEPTNO
+
+15.
+SELECT MIN(SAL) AS NajmanjaPlata, MAX(SAL) AS NajvecaPlata
+FROM emp 
+
+16.
+SELECT DEPTNO, MIN(SAL) AS NajmanjaPlata, MAX(SAL) AS NajvecaPlata
+FROM emp 
+GROUP BY DEPTNO
+
+17.
+SELECT SUM(SAL) AS ZbirPlata
+FROM emp 
+
+18.
+
+SELECT count(*) AS UkupanBrojZaposlenih
+FROM emp 
+
+SELECT DEPTNO, count(*) AS BrojZaposlenih 
+FROM emp 
+GROUP BY DEPTNO
+
+-----------------
+select DEPTNO, COUNT(*) from EMP GROUP by DEPTNO WITH ROLLUP;
+-------------------
+SELECT DEPTNO, COUNT(*) 
+FROM EMP 
+GROUP BY DEPTNO
+UNION SELECT 'Ukupno', COUNT(*) FROM EMP;
+
+19.
+SELECT COUNT(COMM) as brojradnikazaproviziju
+FROM emp 
+
+SELECT *
+FROM emp 
+WHERE COMM IS NOT null and not COMM = 0
+
+20.
+SELECT SAL / avg(SAL) * 100 AS ProcentualniUdeo
+FROM emp 
+GROUP BY DEPTNO
+HAVING DEPTNO = 10
+
